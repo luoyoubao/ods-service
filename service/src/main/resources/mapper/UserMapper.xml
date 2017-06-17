@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xunmeng.ods.mapper.UserMapper">
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xunmeng.ods.entity.User">
+		<id column="id" property="id" />
+		<result column="login_id" property="loginId" />
+		<result column="nick_name" property="nickName" />
+		<result column="mobile" property="mobile" />
+		<result column="email" property="email" />
+		<result column="platform_type" property="platformType" />
+		<result column="pwd" property="pwd" />
+		<result column="pwd_expire" property="pwdExpire" />
+		<result column="pwd_salt" property="pwdSalt" />
+		<result column="pwd_encryption" property="pwdEncryption" />
+		<result column="reg_time" property="regTime" />
+		<result column="avatar_url" property="avatarUrl" />
+		<result column="status" property="status" />
+		<result column="weixin_openid" property="weixinOpenid" />
+		<result column="dingding_openid" property="dingdingOpenid" />
+		<result column="weibo_openid" property="weiboOpenid" />
+		<result column="google_openid" property="googleOpenid" />
+		<result column="facebook_openid" property="facebookOpenid" />
+		<result column="twitter_openid" property="twitterOpenid" />
+		<result column="oauth_openid1" property="oauthOpenid1" />
+		<result column="oauth_openid2" property="oauthOpenid2" />
+		<result column="oauth_openid3" property="oauthOpenid3" />
+		<result column="oauth_openid4" property="oauthOpenid4" />
+		<result column="custom1" property="custom1" />
+		<result column="custom2" property="custom2" />
+		<result column="custom3" property="custom3" />
+		<result column="custom4" property="custom4" />
+		<result column="gmt_created" property="gmtCreated" />
+		<result column="gmt_modified" property="gmtModified" />
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="BaseUserList">
+		select
+		id, login_id AS loginId, nick_name AS nickName, mobile, email,
+		platform_type AS platformType, pwd, pwd_expire AS pwdExpire, pwd_salt
+		AS pwdSalt, pwd_encryption AS pwdEncryption, reg_time AS regTime,
+		avatar_url AS avatarUrl, status, weixin_openid AS weixinOpenid,
+		dingding_openid AS dingdingOpenid, weibo_openid AS weiboOpenid,
+		google_openid AS googleOpenid, facebook_openid AS facebookOpenid,
+		twitter_openid AS twitterOpenid, oauth_openid1 AS oauthOpenid1,
+		oauth_openid2 AS oauthOpenid2, oauth_openid3 AS oauthOpenid3,
+		oauth_openid4 AS oauthOpenid4, custom1, custom2, custom3, custom4,
+		gmt_created AS gmtCreated, gmt_modified AS gmtModified
+		from ods_user
+	</sql>
+	
+	<insert id="insert" parameterType="com.xunmeng.ods.entity.User">
+		insert into ods_user(login_id,gmt_created,gmt_modified)
+		values(#{loginId},now(),now())
+	</insert>
+</mapper>
