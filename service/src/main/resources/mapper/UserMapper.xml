@@ -49,9 +49,66 @@
 		gmt_created AS gmtCreated, gmt_modified AS gmtModified
 		from ods_user
 	</sql>
-	
+
 	<insert id="insert" parameterType="com.xunmeng.ods.entity.User">
-		insert into ods_user(login_id,gmt_created,gmt_modified)
-		values(#{loginId},now(),now())
+		insert into ods_user(
+		login_id,
+		nick_name,
+		mobile,
+		email,
+		platform_type,
+		pwd,
+		pwd_expire,
+		pwd_salt,
+		pwd_encryption,
+		reg_time,
+		avatar_url,
+		status,
+		weixin_openid,
+		dingding_openid,
+		weibo_openid,
+		google_openid,
+		facebook_openid,
+		twitter_openid,
+		oauth_openid1,
+		oauth_openid2,
+		oauth_openid3,
+		oauth_openid4,
+		custom1,
+		custom2,
+		custom3,
+		custom4,
+		gmt_created,
+		gmt_modified
+		) values (
+		#{loginId},
+		#{nickName},
+		#{mobile},
+		#{email},
+		#{platformType},
+		#{pwd},
+		#{pwdExpire},
+		#{pwdSalt},
+		#{pwdEncryption},
+		#{regTime},
+		#{avatarUrl},
+		#{status},
+		#{weixinOpenid},
+		#{dingdingOpenid},
+		#{weiboOpenid},
+		#{googleOpenid},
+		#{facebookOpenid},
+		#{twitterOpenid},
+		#{oauthOpenid1},
+		#{oauthOpenid2},
+		#{oauthOpenid3},
+		#{oauthOpenid4},
+		#{custom1},
+		#{custom2},
+		#{custom3},
+		#{custom4},
+		now(),
+		now()
+		)
 	</insert>
 </mapper>

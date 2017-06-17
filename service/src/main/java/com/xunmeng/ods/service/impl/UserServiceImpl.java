@@ -1,11 +1,10 @@
 package com.xunmeng.ods.service.impl;
 
-import org.springframework.stereotype.Service;
-
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.xunmeng.ods.entity.User;
 import com.xunmeng.ods.mapper.UserMapper;
 import com.xunmeng.ods.service.IUserService;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -13,9 +12,9 @@ import com.xunmeng.ods.service.IUserService;
  * </p>
  *
  * @author Yanghu
- * @since 2017-06-17
+ * @since 2017-06-18
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
-
+	
 }

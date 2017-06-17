@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${package.Mapper}.${table.mapperName}">
-
 #if(${enableCache})
 	<!-- 开启二级缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
 #end
-
 #if(${baseResultMap})
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="${package.Entity}.${entity}">
@@ -24,17 +22,35 @@
 #end
 #end
 	</resultMap>
-
 #end
+
 #if(${baseColumnList})
     <!-- 通用查询结果列 -->
     <sql id="Base${entity}List">
     	select 
 		#foreach($field in ${table.commonFields})
-			#if(${field.name} == ${field.propertyName})${field.name}#else${field.name} AS ${field.propertyName}#end,
+		${field.name},
 		#end
         ${table.fieldNames}
         from ${table.name}
     </sql>
 #end
+
+	<insert id="insert" parameterType="${package.Entity}.${entity}">
+	    insert into ${table.name}(
+	#foreach($field in ${table.fields})
+	#if($velocityCount != ${table.fields.size()})
+	${field.name},
+	#else
+	${field.name}
+	#end#end
+	) values (
+	#foreach($field in ${table.fields})
+	#if($velocityCount != ${table.fields.size()})
+	#{${field.propertyName}},
+	#else
+	#{${field.propertyName}}
+	#end#end
+	)
+	</insert>
 </mapper>

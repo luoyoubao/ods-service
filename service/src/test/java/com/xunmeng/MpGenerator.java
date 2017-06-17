@@ -1,5 +1,7 @@
 package com.xunmeng;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,13 +23,25 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
 public class MpGenerator {
 
-    public static void main(String[] args) {
+    // package name
+    private static final String PACKAGE_NAME = "com.xunmeng";
+    // Module name
+    private static final String MODULE_NAME  = "ods";
+    private static final String DRIVERNAME   = "com.mysql.jdbc.Driver";
+    private static final String USERNAME     = "root";
+    private static final String PASSWORD     = "root2015";
+    private static final String JDBCURL      = "jdbc:mysql://127.0.0.1:3306/ods?characterEncoding=utf8";
 
+    public static void main(String[] args) {
+        String userDir = System.getProperty("user.dir");
         AutoGenerator mpg = new AutoGenerator();
+
+        Path sourcePath = Paths.get(userDir, "src/main/java");
+        Path mapperPath = Paths.get(userDir, "src/main/resources/mapper");
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("/Users/Robert/run/ods");
+        gc.setOutputDir(sourcePath.toString());
         gc.setFileOverride(true);
         gc.setActiveRecord(true);
         gc.setEnableCache(false);// XML 二级缓存
@@ -44,23 +58,22 @@ public class MpGenerator {
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
-        DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setDbType(DbType.MYSQL);
-        dsc.setTypeConvert(new MySqlTypeConvert() {
+        DataSourceConfig datasource = new DataSourceConfig();
+        datasource.setDbType(DbType.MYSQL);
+        datasource.setTypeConvert(new MySqlTypeConvert() {
 
             // 自定义数据库表字段类型转换【可选】
             @Override
             public DbColumnType processTypeConvert(String fieldType) {
-                System.out.println("转换类型：" + fieldType);
                 // 注意！！processTypeConvert 存在默认类型转换，如果不是你要的效果请自定义返回、非如下直接返回。
                 return super.processTypeConvert(fieldType);
             }
         });
-        dsc.setDriverName("com.mysql.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("root2015");
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/ods?characterEncoding=utf8");
-        mpg.setDataSource(dsc);
+        datasource.setDriverName(DRIVERNAME);
+        datasource.setUsername(USERNAME);
+        datasource.setPassword(PASSWORD);
+        datasource.setUrl(JDBCURL);
+        mpg.setDataSource(datasource);
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
@@ -91,8 +104,8 @@ public class MpGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.xunmeng");
-        pc.setModuleName("ods");
+        pc.setParent(PACKAGE_NAME);
+        pc.setModuleName(MODULE_NAME);
         mpg.setPackageInfo(pc);
 
         // 注入自定义配置，可以在 VM 中使用 cfg.abc 【可无】
@@ -101,19 +114,21 @@ public class MpGenerator {
             @Override
             public void initMap() {
                 Map<String, Object> map = new HashMap<String, Object>();
-                map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
+                map.put("bye", "Init project finished.");
                 this.setMap(map);
             }
         };
 
-        // 自定义 xxList.jsp 生成
         List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
         // 调整 xml 生成目录演示
         focList.add(new FileOutConfig("/templates/mapper.xml.vm") {
 
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return "/Users/Robert/run/ods/xml/" + tableInfo.getEntityName() + "-mapper.xml";
+                tableInfo.setConvert(false);
+                System.err.println("isConvert==>" + tableInfo.isConvert());
+
+                return Paths.get(mapperPath.toString(), tableInfo.getEntityName() + "Mapper.xml").toString();
             }
         });
         cfg.setFileOutConfigList(focList);
@@ -140,7 +155,7 @@ public class MpGenerator {
         mpg.execute();
 
         // 打印注入设置【可无】
-        System.err.println(mpg.getCfg().getMap().get("abc"));
+        System.err.println(mpg.getCfg().getMap().get("bye"));
     }
 
 }

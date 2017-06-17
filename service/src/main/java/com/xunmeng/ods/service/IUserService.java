@@ -1,7 +1,7 @@
 package com.xunmeng.ods.service;
 
-import com.baomidou.mybatisplus.service.IService;
 import com.xunmeng.ods.entity.User;
+import com.baomidou.mybatisplus.service.IService;
 
 /**
  * <p>
@@ -9,8 +9,8 @@ import com.xunmeng.ods.entity.User;
  * </p>
  *
  * @author Yanghu
- * @since 2017-06-17
+ * @since 2017-06-18
  */
 public interface IUserService extends IService<User> {
-
+	
 }
